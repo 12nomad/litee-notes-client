@@ -184,9 +184,9 @@ const useBoard = (boardId: string) => {
     });
 
     return () => {
+      controller.abort();
       if (state.socketRef?.io._readyState === "closed") {
         // <-- This is important
-        state.socketRef?.emit("BOARD_LEAVE", { boardId });
         state.socketRef?.off<`${Event}`>("QUEUE_CREATE_SUCCESS");
         state.socketRef?.off<`${Event}`>("QUEUE_CREATE_FAILED");
         state.socketRef?.off<`${Event}`>("NOTE_CREATE_SUCCESS");
@@ -201,8 +201,8 @@ const useBoard = (boardId: string) => {
         state.socketRef?.off<`${Event}`>("NOTE_UPDATE_FAILED");
         state.socketRef?.off<`${Event}`>("NOTE_DELETE_SUCCESS");
         state.socketRef?.off<`${Event}`>("NOTE_DELETE_FAILED");
+        state.socketRef?.emit("BOARD_LEAVE", { boardId });
       }
-      controller.abort();
     };
   }, []);
 
