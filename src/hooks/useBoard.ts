@@ -184,21 +184,24 @@ const useBoard = (boardId: string) => {
     });
 
     return () => {
-      state.socketRef?.emit("BOARD_LEAVE", { boardId });
-      state.socketRef?.off<`${Event}`>("QUEUE_CREATE_SUCCESS");
-      state.socketRef?.off<`${Event}`>("QUEUE_CREATE_FAILED");
-      state.socketRef?.off<`${Event}`>("NOTE_CREATE_SUCCESS");
-      state.socketRef?.off<`${Event}`>("NOTE_CREATE_FAILED");
-      state.socketRef?.off<`${Event}`>("BOARD_UPDATE_SUCCESS");
-      state.socketRef?.off<`${Event}`>("BOARD_UPDATE_FAILED");
-      state.socketRef?.off<`${Event}`>("QUEUE_UPDATE_SUCCESS");
-      state.socketRef?.off<`${Event}`>("QUEUE_UPDATE_FAILED");
-      state.socketRef?.off<`${Event}`>("QUEUE_DELETE_SUCCESS");
-      state.socketRef?.off<`${Event}`>("QUEUE_DELETE_FAILED");
-      state.socketRef?.off<`${Event}`>("NOTE_UPDATE_SUCCESS");
-      state.socketRef?.off<`${Event}`>("NOTE_UPDATE_FAILED");
-      state.socketRef?.off<`${Event}`>("NOTE_DELETE_SUCCESS");
-      state.socketRef?.off<`${Event}`>("NOTE_DELETE_FAILED");
+      if (state.socketRef?.io._readyState === "closed") {
+        // <-- This is important
+        state.socketRef?.emit("BOARD_LEAVE", { boardId });
+        state.socketRef?.off<`${Event}`>("QUEUE_CREATE_SUCCESS");
+        state.socketRef?.off<`${Event}`>("QUEUE_CREATE_FAILED");
+        state.socketRef?.off<`${Event}`>("NOTE_CREATE_SUCCESS");
+        state.socketRef?.off<`${Event}`>("NOTE_CREATE_FAILED");
+        state.socketRef?.off<`${Event}`>("BOARD_UPDATE_SUCCESS");
+        state.socketRef?.off<`${Event}`>("BOARD_UPDATE_FAILED");
+        state.socketRef?.off<`${Event}`>("QUEUE_UPDATE_SUCCESS");
+        state.socketRef?.off<`${Event}`>("QUEUE_UPDATE_FAILED");
+        state.socketRef?.off<`${Event}`>("QUEUE_DELETE_SUCCESS");
+        state.socketRef?.off<`${Event}`>("QUEUE_DELETE_FAILED");
+        state.socketRef?.off<`${Event}`>("NOTE_UPDATE_SUCCESS");
+        state.socketRef?.off<`${Event}`>("NOTE_UPDATE_FAILED");
+        state.socketRef?.off<`${Event}`>("NOTE_DELETE_SUCCESS");
+        state.socketRef?.off<`${Event}`>("NOTE_DELETE_FAILED");
+      }
       controller.abort();
     };
   }, []);
