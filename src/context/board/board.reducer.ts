@@ -9,6 +9,7 @@ export const initialState: IBoardContext = {
   note: null,
   socketRef: undefined,
   dispatch: () => {},
+  lastBoardId: 0,
 };
 
 const boardReducer = (
@@ -18,6 +19,9 @@ const boardReducer = (
   const { type, payload } = action;
 
   switch (type) {
+    case "SET_LAST_BOARD_ID":
+      return { ...state, lastBoardId: payload.boardId };
+
     case "SET_SOCKET":
       return { ...state, socketRef: payload.socket };
 

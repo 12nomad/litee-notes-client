@@ -5,6 +5,7 @@ import client from "../utils/axios.util";
 import { IBoard } from "../context/board/board.interface";
 import { useBoardContext } from "../context/board/board.context";
 import { IResponse } from "../interfaces/response.interface";
+import Event from "../enums/event.enum";
 
 const useBoards = () => {
   const state = useBoardContext();
@@ -12,6 +13,24 @@ const useBoards = () => {
     boardsLoading: false,
     boardsError: "",
   });
+
+  useEffect(() => {
+    state.socketRef?.emit("BOARD_LEAVE", { boardId: state.lastBoardId });
+    state.socketRef?.off<`${Event}`>("QUEUE_CREATE_SUCCESS");
+    state.socketRef?.off<`${Event}`>("QUEUE_CREATE_FAILED");
+    state.socketRef?.off<`${Event}`>("NOTE_CREATE_SUCCESS");
+    state.socketRef?.off<`${Event}`>("NOTE_CREATE_FAILED");
+    state.socketRef?.off<`${Event}`>("BOARD_UPDATE_SUCCESS");
+    state.socketRef?.off<`${Event}`>("BOARD_UPDATE_FAILED");
+    state.socketRef?.off<`${Event}`>("QUEUE_UPDATE_SUCCESS");
+    state.socketRef?.off<`${Event}`>("QUEUE_UPDATE_FAILED");
+    state.socketRef?.off<`${Event}`>("QUEUE_DELETE_SUCCESS");
+    state.socketRef?.off<`${Event}`>("QUEUE_DELETE_FAILED");
+    state.socketRef?.off<`${Event}`>("NOTE_UPDATE_SUCCESS");
+    state.socketRef?.off<`${Event}`>("NOTE_UPDATE_FAILED");
+    state.socketRef?.off<`${Event}`>("NOTE_DELETE_SUCCESS");
+    state.socketRef?.off<`${Event}`>("NOTE_DELETE_FAILED");
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();

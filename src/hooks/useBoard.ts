@@ -19,6 +19,11 @@ const useBoard = (boardId: string) => {
   const state = useBoardContext();
 
   useEffect(() => {
+    state.dispatch({
+      type: "SET_LAST_BOARD_ID",
+      payload: { boardId: parseInt(boardId) },
+    });
+
     state.socketRef?.on<`${Event}`>("QUEUE_CREATE_SUCCESS", (data: IQueue) => {
       if (!data || parseInt(boardId) !== data.boardId) return;
       state.dispatch({ type: "ADD_QUEUE", payload: { queue: data } });
@@ -136,24 +141,6 @@ const useBoard = (boardId: string) => {
       if (!data) return;
       setSocketState({ socketError: data, socketLoading: false });
     });
-
-    return () => {
-      state.socketRef?.emit("BOARD_LEAVE", { boardId });
-      state.socketRef?.off<`${Event}`>("QUEUE_CREATE_SUCCESS");
-      state.socketRef?.off<`${Event}`>("QUEUE_CREATE_FAILED");
-      state.socketRef?.off<`${Event}`>("NOTE_CREATE_SUCCESS");
-      state.socketRef?.off<`${Event}`>("NOTE_CREATE_FAILED");
-      state.socketRef?.off<`${Event}`>("BOARD_UPDATE_SUCCESS");
-      state.socketRef?.off<`${Event}`>("BOARD_UPDATE_FAILED");
-      state.socketRef?.off<`${Event}`>("QUEUE_UPDATE_SUCCESS");
-      state.socketRef?.off<`${Event}`>("QUEUE_UPDATE_FAILED");
-      state.socketRef?.off<`${Event}`>("QUEUE_DELETE_SUCCESS");
-      state.socketRef?.off<`${Event}`>("QUEUE_DELETE_FAILED");
-      state.socketRef?.off<`${Event}`>("NOTE_UPDATE_SUCCESS");
-      state.socketRef?.off<`${Event}`>("NOTE_UPDATE_FAILED");
-      state.socketRef?.off<`${Event}`>("NOTE_DELETE_SUCCESS");
-      state.socketRef?.off<`${Event}`>("NOTE_DELETE_FAILED");
-    };
   }, []);
 
   useEffect(() => {

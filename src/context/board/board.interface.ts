@@ -26,8 +26,13 @@ export interface IBoardContext {
   note: INote | null;
   dispatch: Dispatch<TAppAction>;
   socketRef?: Socket;
+  lastBoardId: number;
 }
 
+interface ISetLastBoardId {
+  type: "SET_LAST_BOARD_ID";
+  payload: { boardId: number };
+}
 interface ISetBoards {
   type: "SET_BOARDS";
   payload: { boards: IBoard[] };
@@ -106,4 +111,5 @@ export type TAppAction =
   | IDeleteQueue
   | IDeleteNote
   | IUpdateNote
-  | ISetSocket;
+  | ISetSocket
+  | ISetLastBoardId;
