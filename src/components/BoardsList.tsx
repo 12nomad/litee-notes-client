@@ -1,7 +1,7 @@
 import { useState, MouseEvent, FormEvent, ChangeEvent } from "react";
 import { AxiosError } from "axios";
 import { IoIosAddCircleOutline } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 
 import { IResponse } from "../interfaces/response.interface";
@@ -10,6 +10,8 @@ import useBoards from "../hooks/useBoards";
 import BoardSkeleton from "./common/BoardSkeleton";
 import BoardInput from "./common/BoardInput";
 import ServerError from "./common/ServerError";
+import { useBoardContext } from "../context/board/board.context";
+import Event from "../enums/event.enum";
 
 interface IBoard {
   id: number;
@@ -26,6 +28,13 @@ const BoardsList = () => {
     isHidden: true,
   });
   const [boardsPostError, setBoardsPostError] = useState("");
+  const { socketRef } = useBoardContext();
+  const navigate = useNavigate();
+
+  const onClick = (boardId: number) => {
+    socketRef?.emit<`${Event}`>("BOARD_JOIN", { boardId });
+    return navigate(`/boards/${boardId}`);
+  };
 
   if (boardsLoading)
     return (
@@ -76,12 +85,12 @@ const BoardsList = () => {
             key={board.id}
             className="min-w-[284px] h-[103px] grid place-items-center  p-6 bg-white border border-gray-200 rounded-md shadow hover:bg-gray-100"
           >
-            <Link to={`/boards/${board.id}`}>
+            <div onClick={() => onClick(board.id)}>
               <h6 className="cursor-pointer   text-lg tracking-tight text-gray-900 flex items-center gap-1">
                 <MdOutlineSpaceDashboard />
                 {board.title}
               </h6>
-            </Link>
+            </div>
           </li>
         ))}
 

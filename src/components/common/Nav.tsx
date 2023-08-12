@@ -3,18 +3,15 @@ import { RiListSettingsLine, RiTeamLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import { MdStickyNote2 } from "react-icons/md";
 
-import { useBoardContext } from "../../context/board/board.context";
 import { useUserContext } from "../../context/user/user.context";
 
 const Nav = () => {
   const { username, setUser } = useUserContext();
-  const { socketRef } = useBoardContext();
   const navigate = useNavigate();
 
   const onSignOut = () => {
     localStorage.removeItem("notes_at");
     setUser({ id: 0, username: "" });
-    socketRef?.disconnect();
     navigate("/auth", { replace: true });
   };
 

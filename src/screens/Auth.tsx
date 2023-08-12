@@ -3,9 +3,16 @@ import Bg from "../assets/bg.png";
 import { MdStickyNote2 } from "react-icons/md";
 import useUser from "../hooks/useUser";
 import { useUserContext } from "../context/user/user.context";
+import { useEffect } from "react";
+import { useBoardContext } from "../context/board/board.context";
 
 const Auth = () => {
   const { id, username } = useUserContext();
+  const { socketRef } = useBoardContext();
+
+  useEffect(() => {
+    socketRef?.disconnect();
+  }, []);
 
   if (username && id > 0) return <Navigate to="/" replace />;
 

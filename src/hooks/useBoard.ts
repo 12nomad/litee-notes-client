@@ -19,54 +19,8 @@ const useBoard = (boardId: string) => {
   const state = useBoardContext();
 
   useEffect(() => {
-    const controller = new AbortController();
-
-    const fetchData = async () => {
-      try {
-        setBoardState({ boardError: "", boardLoading: true });
-
-        const [
-          {
-            data: { data: board },
-          },
-          {
-            data: { data: queues },
-          },
-        ] = await Promise.all([
-          await client.get<IResponse<IBoard>>(`/boards/${boardId}`, {
-            signal: controller.signal,
-          }),
-          await client.get<IResponse<IQueue[]>>(`/boards/${boardId}/queues`, {
-            signal: controller.signal,
-          }),
-        ]);
-
-        state.dispatch({
-          type: "SET_BOARD",
-          payload: { board: board },
-        });
-        state.dispatch({
-          type: "SET_QUEUES",
-          payload: { queues: queues || [] },
-        });
-        setBoardState((prev) => ({ ...prev, boardLoading: false }));
-      } catch (error) {
-        if (error instanceof AxiosError)
-          setBoardState({
-            boardError: error.response?.data,
-            boardLoading: false,
-          });
-        else if (error instanceof Error)
-          setBoardState({ boardError: error.message, boardLoading: false });
-      }
-    };
-    fetchData();
-
-    state.socketRef?.connect();
-    state.socketRef?.emit<`${Event}`>("BOARD_JOIN", { boardId });
-
     state.socketRef?.on<`${Event}`>("QUEUE_CREATE_SUCCESS", (data: IQueue) => {
-      if (!data) return;
+      if (!data || parseInt(boardId) !== data.boardId) return;
       state.dispatch({ type: "ADD_QUEUE", payload: { queue: data } });
       setSocketState((prev) => ({ ...prev, socketLoading: false }));
     });
@@ -184,25 +138,70 @@ const useBoard = (boardId: string) => {
     });
 
     return () => {
-      controller.abort();
-      if (state.socketRef?.io._readyState === "closed") {
-        // <-- This is important
-        state.socketRef?.off<`${Event}`>("QUEUE_CREATE_SUCCESS");
-        state.socketRef?.off<`${Event}`>("QUEUE_CREATE_FAILED");
-        state.socketRef?.off<`${Event}`>("NOTE_CREATE_SUCCESS");
-        state.socketRef?.off<`${Event}`>("NOTE_CREATE_FAILED");
-        state.socketRef?.off<`${Event}`>("BOARD_UPDATE_SUCCESS");
-        state.socketRef?.off<`${Event}`>("BOARD_UPDATE_FAILED");
-        state.socketRef?.off<`${Event}`>("QUEUE_UPDATE_SUCCESS");
-        state.socketRef?.off<`${Event}`>("QUEUE_UPDATE_FAILED");
-        state.socketRef?.off<`${Event}`>("QUEUE_DELETE_SUCCESS");
-        state.socketRef?.off<`${Event}`>("QUEUE_DELETE_FAILED");
-        state.socketRef?.off<`${Event}`>("NOTE_UPDATE_SUCCESS");
-        state.socketRef?.off<`${Event}`>("NOTE_UPDATE_FAILED");
-        state.socketRef?.off<`${Event}`>("NOTE_DELETE_SUCCESS");
-        state.socketRef?.off<`${Event}`>("NOTE_DELETE_FAILED");
-        state.socketRef?.emit("BOARD_LEAVE", { boardId });
+      state.socketRef?.emit("BOARD_LEAVE", { boardId });
+      state.socketRef?.off<`${Event}`>("QUEUE_CREATE_SUCCESS");
+      state.socketRef?.off<`${Event}`>("QUEUE_CREATE_FAILED");
+      state.socketRef?.off<`${Event}`>("NOTE_CREATE_SUCCESS");
+      state.socketRef?.off<`${Event}`>("NOTE_CREATE_FAILED");
+      state.socketRef?.off<`${Event}`>("BOARD_UPDATE_SUCCESS");
+      state.socketRef?.off<`${Event}`>("BOARD_UPDATE_FAILED");
+      state.socketRef?.off<`${Event}`>("QUEUE_UPDATE_SUCCESS");
+      state.socketRef?.off<`${Event}`>("QUEUE_UPDATE_FAILED");
+      state.socketRef?.off<`${Event}`>("QUEUE_DELETE_SUCCESS");
+      state.socketRef?.off<`${Event}`>("QUEUE_DELETE_FAILED");
+      state.socketRef?.off<`${Event}`>("NOTE_UPDATE_SUCCESS");
+      state.socketRef?.off<`${Event}`>("NOTE_UPDATE_FAILED");
+      state.socketRef?.off<`${Event}`>("NOTE_DELETE_SUCCESS");
+      state.socketRef?.off<`${Event}`>("NOTE_DELETE_FAILED");
+    };
+  }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const fetchData = async () => {
+      try {
+        setBoardState({ boardError: "", boardLoading: true });
+
+        const [
+          {
+            data: { data: board },
+          },
+          {
+            data: { data: queues },
+          },
+        ] = await Promise.all([
+          client.get<IResponse<IBoard>>(`/boards/${boardId}`, {
+            signal: controller.signal,
+          }),
+          client.get<IResponse<IQueue[]>>(`/boards/${boardId}/queues`, {
+            signal: controller.signal,
+          }),
+        ]);
+
+        state.dispatch({
+          type: "SET_BOARD",
+          payload: { board: board },
+        });
+        state.dispatch({
+          type: "SET_QUEUES",
+          payload: { queues: queues || [] },
+        });
+        setBoardState((prev) => ({ ...prev, boardLoading: false }));
+      } catch (error) {
+        if (error instanceof AxiosError)
+          setBoardState({
+            boardError: error.response?.data,
+            boardLoading: false,
+          });
+        else if (error instanceof Error)
+          setBoardState({ boardError: error.message, boardLoading: false });
       }
+    };
+    fetchData();
+
+    return () => {
+      controller.abort();
     };
   }, []);
 

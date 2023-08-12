@@ -7,6 +7,7 @@ export const initialState: IBoardContext = {
   queue: null,
   notes: [],
   note: null,
+  socketRef: undefined,
   dispatch: () => {},
 };
 
@@ -17,6 +18,9 @@ const boardReducer = (
   const { type, payload } = action;
 
   switch (type) {
+    case "SET_SOCKET":
+      return { ...state, socketRef: payload.socket };
+
     case "SET_BOARDS":
       return { ...state, boards: payload.boards };
 

@@ -89,6 +89,11 @@ interface IDeleteNote {
   payload: { noteId: number; queueId: number };
 }
 
+interface ISetSocket {
+  type: "SET_SOCKET";
+  payload: { socket: Socket };
+}
+
 export type TAppAction =
   | ISetBoards
   | ISetQueues
@@ -100,4 +105,5 @@ export type TAppAction =
   | IAddNote
   | IDeleteQueue
   | IDeleteNote
-  | IUpdateNote;
+  | IUpdateNote
+  | ISetSocket;
