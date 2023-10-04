@@ -95,7 +95,7 @@ const Register = <T extends FieldValues>() => {
                 } hover:bg-sky-700 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center`}
                 disabled={isLoading}
               >
-                {isLoading ? "Loading" : "Sign up"}
+                {isLoading ? "Loading..." : "Sign up"}
               </button>
               <ServerError serverError={serverError} />
             </div>
