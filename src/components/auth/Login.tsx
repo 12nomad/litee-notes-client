@@ -22,6 +22,7 @@ const loginFields: IFormField<FieldValues>[] = [
 
 const Login = () => {
   const [serverError, setServerError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const { setUser } = useUserContext();
   const navigate = useNavigate();
   const {
@@ -35,12 +36,17 @@ const Login = () => {
 
   const onSubmit = async (data: LogInValidationSchema) => {
     try {
+      setIsLoading(true);
       const {
         data: { token, data: userData },
       } = await client.post<IResponse<IUser>>("/user/login", data);
 
-      if (!token || !userData) return;
+      if (!token || !userData) {
+        setIsLoading(false);
+        return;
+      }
 
+      setIsLoading(false);
       setUser(userData);
       localStorage.setItem("notes_at", token);
 
@@ -48,6 +54,7 @@ const Login = () => {
       setServerError("");
       navigate("/", { replace: true });
     } catch (error) {
+      setIsLoading(false);
       if (error instanceof AxiosError) setServerError(error.response?.data);
     }
   };
@@ -78,9 +85,12 @@ const Login = () => {
               <div>
                 <button
                   type="submit"
-                  className="w-full text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  className={`w-full text-white ${
+                    isLoading ? "bg-sky-700" : "bg-sky-600"
+                  } hover:bg-sky-700 focus:ring-4 focus:outline-none focus:ring-sky-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center`}
+                  disabled={isLoading}
                 >
-                  Sign in
+                  {isLoading ? "Loading" : "Sign in"}
                 </button>
                 <ServerError serverError={serverError} />
               </div>

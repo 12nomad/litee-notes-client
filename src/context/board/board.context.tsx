@@ -2,9 +2,7 @@ import {
   createContext,
   PropsWithChildren,
   useContext,
-  useEffect,
   useReducer,
-  useRef,
 } from "react";
 
 import boardReducer, { initialState } from "./board.reducer";
