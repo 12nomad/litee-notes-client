@@ -84,7 +84,7 @@ const Queue = ({
 
   return (
     <>
-      <li className="p-4 rounded-lg min-w-[284px] bg-white">
+      <li className="p-4 rounded-lg w-full md:w-[308px] bg-white border shadow">
         <div className="flex justify-between items-center mb-4">
           {queueInfo.isHidden ? (
             <div className="flex items-center gap-1">
@@ -98,7 +98,7 @@ const Queue = ({
               </div>
               <form onSubmit={onQueueUpdateSubmit}>
                 <BoardInput
-                  ref={queueInputRef}
+                  refer={queueInputRef}
                   isHidden={queueInfo.isHidden}
                   name="queueTitle"
                   placeholder="set a new title..."
@@ -115,7 +115,12 @@ const Queue = ({
             </div>
           )}
 
-          <Dropdown label="" dismissOnClick={true} inline={true}>
+          <Dropdown
+            label=""
+            dismissOnClick={true}
+            inline={true}
+            placement="bottom-end"
+          >
             <Dropdown.Item
               onClick={() =>
                 setQueueInfo((prev) => ({ ...prev, isHidden: false }))

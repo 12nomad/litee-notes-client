@@ -17,19 +17,20 @@ const Nav = () => {
 
   return (
     <Navbar fluid={true}>
-      <div className="w-full md:mx-2 xl:mx-4 flex justify-between mx-auto items-center lg:py-2">
+      <div className="w-full max-w-screen-xl mx-2 md:mx-12 xl:mx-auto flex justify-between items-center lg:py-2">
         <Link
           to="/"
           className="flex items-center gap-1 text-sky-700 font-lobster"
         >
           <MdStickyNote2 size={25} />
-          <span className="underline self-center whitespace-nowrap text-2xl  dark:text-white">
+          <span className="self-center whitespace-nowrap text-2xl  dark:text-white">
             Litee Notes
           </span>
         </Link>
         <div className="flex md:order-2">
           <Dropdown
             arrowIcon={false}
+            placement="bottom-end"
             inline={true}
             label={
               <Avatar

@@ -95,7 +95,7 @@ const Board = () => {
                 </div>
                 <form onSubmit={onBoardUpdateSubmit}>
                   <BoardInput
-                    ref={boardInputRef}
+                    refer={boardInputRef}
                     isHidden={boardInfo.isHidden}
                     name="boardTitle"
                     placeholder="set a new title..."
@@ -129,7 +129,7 @@ const Board = () => {
           onClick={() =>
             setQueueInfo((prev) => ({ ...prev, isHidden: false, title: "" }))
           }
-          className="cursor-pointer min-w-[284px] flex flex-col items-center p-4 bg-white border border-gray-200 rounded-md shadow hover:bg-gray-100 "
+          className="cursor-pointer w-full md:w-[308px] flex flex-col items-center p-4 bg-white border border-gray-200 rounded-md shadow hover:bg-gray-100 "
         >
           <div className="flex items-center gap-2">
             <IoIosAddCircleOutline size={25} />

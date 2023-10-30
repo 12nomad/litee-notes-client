@@ -83,10 +83,10 @@ const BoardsList = () => {
         {boards.map((board) => (
           <li
             key={board.id}
-            className="min-w-[284px] h-[103px] grid place-items-center  p-6 bg-white border border-gray-200 rounded-md shadow hover:bg-gray-100"
+            className="w-full md:w-[308px] h-[153px] grid place-items-center p-6 bg-white border border-gray-200 rounded-md shadow hover:bg-gray-50"
           >
             <div onClick={() => onClick(board.id)}>
-              <h6 className="cursor-pointer   text-lg tracking-tight text-gray-900 flex items-center gap-1">
+              <h6 className="cursor-pointer text-lg tracking-tight text-gray-900 flex items-center gap-1">
                 <MdOutlineSpaceDashboard />
                 {board.title}
               </h6>
@@ -96,7 +96,7 @@ const BoardsList = () => {
 
         <li
           onClick={() => setBoardInfo((prev) => ({ ...prev, isHidden: false }))}
-          className="cursor-pointer min-w-[284px] min-h-[103px] flex flex-col items-center p-6 bg-white border border-gray-200 rounded-md shadow hover:bg-gray-100"
+          className="cursor-pointer w-full md:w-[308px] h-[153px] flex flex-col items-center justify-center p-6 bg-white border border-gray-200 rounded-md shadow hover:bg-gray-50"
         >
           <IoIosAddCircleOutline size={25} />
           <h6 className="text-lg tracking-tight text-gray-900">

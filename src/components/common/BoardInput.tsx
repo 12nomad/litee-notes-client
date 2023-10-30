@@ -1,7 +1,7 @@
 import React, { ChangeEvent, RefObject } from "react";
 
 interface IBoardInput {
-  ref?: RefObject<HTMLInputElement>;
+  refer?: RefObject<HTMLInputElement>;
   type?: string;
   id?: string;
   className?: string;
@@ -20,12 +20,12 @@ const BoardInput = ({
   placeholder,
   type = "text",
   value,
-  ref,
+  refer,
   id,
 }: IBoardInput) => {
   return (
     <input
-      ref={ref}
+      ref={refer}
       id={id}
       type={isHidden ? "hidden" : type}
       name={name}

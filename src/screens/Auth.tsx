@@ -20,17 +20,17 @@ const Auth = () => {
     <div className="grid grid-cols-1 lg:grid-cols-2 h-screen">
       <div className="bg-sky-700 grid place-items-center text-center p-6">
         <div>
-          <h2 className="flex items-center justify-center gap-1 text-4xl mb-2 lg:mb-6 text-white">
+          <h2 className="flex items-center justify-center gap-1 text-3xl lg:text-4xl mb-2 lg:mb-6 text-white">
             <MdStickyNote2 />
-            <span className="font-lobster underline">Litee Notes</span>{" "}
+            <span className="font-lobster">Litee Notes</span>{" "}
           </h2>
           <img src={Bg} alt="background" className="w-60 mx-auto" />
-          <h4 className="text-xl lg:mt-4 text-white">
+          <h4 className="text-lg lg:text-xl lg:mt-4 text-white">
             A simple realtime note sharing app for your team.
           </h4>
         </div>
       </div>
-      <div className="bg-gray-50">
+      <div className="bg-gray-50 grid items-center">
         <Outlet />
       </div>
     </div>

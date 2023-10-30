@@ -20,9 +20,9 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="bg-gray-100 w-full">
+    <div className="bg-gray-50">
       <Nav />
-      <main className="mx-2 md:mx-7 xl:mx-9 py-10">
+      <main className="max-w-screen-xl w-[80%] md:w-auto mx-auto md:mx-[68px] lg:mx-[66px] xl:mx-auto py-5">
         <Outlet />
       </main>
     </div>

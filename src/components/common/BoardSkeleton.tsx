@@ -1,6 +1,6 @@
 const BoardSkeleton = () => {
   return (
-    <div className="flex gap-4 items-center">
+    <div className="flex flex-wrap gap-4 items-center">
       {Array.from({ length: 3 }).map((_, idx) => (
         <div
           key={idx}
