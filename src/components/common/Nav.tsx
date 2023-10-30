@@ -17,7 +17,7 @@ const Nav = () => {
 
   return (
     <Navbar fluid={true}>
-      <div className="w-full max-w-screen-xl mx-2 md:mx-12 xl:mx-auto flex justify-between items-center lg:py-2">
+      <div className="w-full max-w-screen-xl mx-2 md:mx-8 lg:mx-auto flex justify-between items-center lg:py-2">
         <Link
           to="/"
           className="flex items-center gap-1 text-sky-700 font-lobster"

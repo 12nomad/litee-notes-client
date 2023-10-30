@@ -22,7 +22,7 @@ const Home = () => {
   return (
     <div className="bg-gray-50">
       <Nav />
-      <main className="max-w-screen-xl w-[80%] md:w-auto mx-auto md:mx-[68px] lg:mx-[66px] xl:mx-auto py-5">
+      <main className="max-w-screen-xl w-[80%] md:w-[632px] lg:w-[956px] xl:w-auto mx-auto py-5">
         <Outlet />
       </main>
     </div>
