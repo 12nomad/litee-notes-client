@@ -2,6 +2,8 @@
 
 A simple clone of trello.com with a React.js frontend and an Express.js backend
 
+<img width="1920" height="928" alt="notes" src="https://github.com/user-attachments/assets/c469653f-d567-4e24-801a-98e78ec7566d" />
+
 ## 🚀 Tech Stack
 
 - Typescript, React.js, Vite
