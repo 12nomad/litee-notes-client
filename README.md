@@ -32,4 +32,4 @@ npm i
 npm run dev
 ```
 
-#‼️Litee Notes Server (expressjs server 👉 [Litee Notes Server](https://github.com/12nomad/litee-notes-server)) 
+#❗Litee Notes Server (expressjs server 👉 [Litee Notes Server](https://github.com/12nomad/litee-notes-server)) 
